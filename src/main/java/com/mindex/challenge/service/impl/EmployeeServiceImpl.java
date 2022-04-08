@@ -49,14 +49,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    /*
+     * this works but probably not the best implementation
+     * I struggled with how to approach this because I don't know mongodb honestly
+     */
     @Override
     public int getNumberOfReports(String id) {
+        LOG.debug("Finding number of Reports for employeeId [{}]", id);
+
         Employee employee = this.read(id);
         int totalReports = 0;
 
         List<Employee> reports = employee.getDirectReports();
         if (reports != null) {
-            for (Employee reportingEmployee : reports) 
+            for (Employee reportingEmployee : reports)
+                // Add 1 for the report in addition to any direct reports they might have
                 totalReports += 1 + getNumberOfReports(reportingEmployee.getEmployeeId());
         }
 
