@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompensationServiceImpl implements CompensationService{
+public class CompensationServiceImpl implements CompensationService {
     private static final Logger LOG = LoggerFactory.getLogger(CompensationServiceImpl.class);
-    
+
     @Autowired
     private EmployeeService employeeService;
 
@@ -26,16 +26,16 @@ public class CompensationServiceImpl implements CompensationService{
         LOG.debug("Creating compensation for: [{}]", compensation);
 
         Employee employee = employeeService.read(compensation.getEmployee().getEmployeeId());
-    	compensation.setEmployee(employee);
+        compensation.setEmployee(employee);
         compensationRepository.insert(compensation);
-        
+
         return compensation;
     }
 
     @Override
     public Compensation read(String employeeId) {
         LOG.debug("Reading compensation for employeeId: [{}]", employeeId);
-        
+
         Employee employee = employeeService.read(employeeId);
         Compensation compensation = compensationRepository.findByEmployee(employee);
 
@@ -45,5 +45,5 @@ public class CompensationServiceImpl implements CompensationService{
 
         return compensation;
     }
-    
+
 }
